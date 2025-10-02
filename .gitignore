@@ -1,0 +1,50 @@
+# Archivos generados por Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# Asset Store y paquetes descargados
+Assets/AssetStoreTools*
+*.unitypackage
+
+# Archivos de usuario
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Configuración de IDE
+.vscode/
+.idea/
+*.swp
+
+# Datos de XR/VR temporales
+XRDeviceSimulator/
+Oculus/AudioManager.asset
+Oculus/SpatializerDatabase.asset
+
+# Compilados de builds
+*.apk
+*.aab
+*.exe
+*.app
+*.xcodeproj/
+*.xcworkspace/
+
+# Carpetas de sistema
+.DS_Store
+Thumbs.db
