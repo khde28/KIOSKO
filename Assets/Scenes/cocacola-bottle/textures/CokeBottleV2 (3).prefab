@@ -624,7 +624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Product
   productName: coca
-  price: 0
+  price: 5
 --- !u!114 &6721491981405913011
 MonoBehaviour:
   m_ObjectHideFlags: 0

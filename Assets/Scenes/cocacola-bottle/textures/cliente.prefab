@@ -133,4 +133,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Client
   requestedProducts:
   - coca
-  - manzana
