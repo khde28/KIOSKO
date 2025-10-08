@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClientAnimationController
   animator: {fileID: 1003279752260881515}
-  clipIdle: {fileID: -3147276327077158549, guid: e612cf64663fa5444a4dc62b58107fd0, type: 3}
+  clipIdle: {fileID: 0}
   clipCaminar: {fileID: -306258567452046939, guid: e612cf64663fa5444a4dc62b58107fd0, type: 3}
   clipMolesto: {fileID: 3376237996100673137, guid: e612cf64663fa5444a4dc62b58107fd0, type: 3}
   clipSatisfecho: {fileID: -6843890305612596074, guid: 40c00252c1e97c248907743346e915b1, type: 3}

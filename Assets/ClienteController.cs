@@ -112,6 +112,10 @@ public class ClientAnimationController : MonoBehaviour
         Debug.Log("Cliente molesto. Se irá pronto.");
 
         Invoke(nameof(IniciarDarseVuelta), tiempoMolestoAntesDeSalir);
+
+
+        GameManager.Instance.AddAngryClient();
+
     }
 
     // 🔹 Se gira para salir
