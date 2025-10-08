@@ -7,15 +7,20 @@ public class GameManager : MonoBehaviour
 
     [Header("Cliente")]
     public GameObject clientePrefab;
-    public Transform[] spawnPoints; // tres posibles posiciones
+    public Transform[] spawnPoints;
     public float respawnDelay = 2f;
 
-    [Header("Econom a")]
+    [Header("Productos disponibles")]
+    public string[] availableProducts = { "manzana", "coca" };
+
+    [Header("Economía")]
     private int money = 0;
 
-    [Header("Gesti n de clientes")]
+    [Header("Gestión de clientes")]
     private int angryClients = 0;
     public int maxAngryClients = 3;
+    private int satisfiedClients = 0; // CONTADOR DE CLIENTES SATISFECHOS
+    public int clientsToWin = 5; // META PARA GANAR
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -38,18 +43,25 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // reproducir sonido inicial del juego
         PlaySound(campanaClip);
+        // Generar primer cliente inmediatamente
+        StartCoroutine(SpawnNewClient());
     }
 
     void Update()
     {
-        // si no hay cliente, iniciar respawn
         if (GameObject.FindGameObjectWithTag("Client") == null && !isSpawning)
         {
             StartCoroutine(SpawnNewClient());
         }
 
+        // Verificar victoria por clientes atendidos
+        if (!IsWin && satisfiedClients >= clientsToWin)
+        {
+            WinGame();
+        }
+
+        // Tu condición original de victoria (por si la quieres mantener)
         if (!IsWin && transform.position.y < -10f)
         {
             UIManager.inst.ShowWinScreen();
@@ -62,18 +74,74 @@ public class GameManager : MonoBehaviour
         isSpawning = true;
         yield return new WaitForSeconds(respawnDelay);
 
-        // elegir punto aleatorio
         Transform chosenSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
-
         GameObject newClient = Instantiate(clientePrefab, chosenSpawn.position, chosenSpawn.rotation);
         newClient.tag = "Client";
 
-        Debug.Log("Nuevo cliente generado en posici n aleatoria.");
+        // Configurar productos aleatorios para el cliente
+        ConfigureRandomProducts(newClient);
+
+        Debug.Log("Nuevo cliente generado con productos aleatorios.");
         isSpawning = false;
     }
 
+    private void ConfigureRandomProducts(GameObject clientObject)
+    {
+        Cliente cliente = clientObject.GetComponent<Cliente>();
+        if (cliente != null)
+        {
+            // Limpiar lista existente
+            cliente.requestedProductsList.Clear();
+
+            // Elegir 1 producto aleatorio
+            string randomProduct = availableProducts[Random.Range(0, availableProducts.Length)];
+
+            // Agregar el producto con cantidad 1
+            ProductRequest newRequest = new ProductRequest
+            {
+                productName = randomProduct,
+                quantity = 1
+            };
+
+            cliente.requestedProductsList.Add(newRequest);
+
+            Debug.Log($"Cliente nuevo pide: {randomProduct} (cantidad: 1)");
+        }
+    }
+
     // ==========================
-    //  Econom a
+    //  MÉTODO NUEVO: Contar cliente satisfecho
+    // ==========================
+    public void AddSatisfiedClient()
+    {
+        satisfiedClients++;
+        Debug.Log($"Clientes satisfechos: {satisfiedClients}/{clientsToWin}");
+
+        // Verificar si ganó inmediatamente después de agregar
+        if (!IsWin && satisfiedClients >= clientsToWin)
+        {
+            WinGame();
+        }
+    }
+
+    // ==========================
+    //  MÉTODO NUEVO: Ganar el juego
+    // ==========================
+    private void WinGame()
+    {
+        if (IsWin) return;
+
+        IsWin = true;
+        Debug.Log("¡FELICIDADES! Has atendido a 5 clientes satisfactoriamente. ¡GANASTE!");
+
+        PlaySound(campanaClip); // Reproducir sonido de victoria
+
+        UIManager.inst.ShowWinScreen();
+        Time.timeScale = 0f; // Pausar el juego
+    }
+
+    // ==========================
+    //  Economía
     // ==========================
     public void AddMoney(int amount)
     {
@@ -91,16 +159,12 @@ public class GameManager : MonoBehaviour
         angryClients++;
         Debug.Log($"Clientes molestos: {angryClients}/{maxAngryClients}");
 
-
         if (vidas > 0 && !IsDead)
         {
             vidas -= 1;
             Debug.Log($"Vidas restantes: {vidas}");
             UIManager.inst.DesactivarVida(vidas);
-
-            
         }
-
 
         if (angryClients >= maxAngryClients)
         {
@@ -110,8 +174,8 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
-        PlaySound(campanaClip); // mismo sonido del inicio
-        Debug.Log(" Demasiados clientes molestos! Juego terminado.");
+        PlaySound(campanaClip);
+        Debug.Log("¡Demasiados clientes molestos! Juego terminado.");
 
         if (IsDead) return;
 

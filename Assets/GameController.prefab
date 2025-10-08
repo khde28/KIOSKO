@@ -45,12 +45,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c70a9e45ee22a7c48accc085b8610855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  clientePrefab: {fileID: 2251756224905355403, guid: ed19024b86a2ba84b8b1a50c2330e7f2, type: 3}
+  clientePrefab: {fileID: 4378705868980732553, guid: 53f1bb9d2c5e7b14ca3481810438b048, type: 3}
   spawnPoints:
   - {fileID: 4784474860234273574, guid: 9ea92ebbc5de7654abbde7dbcacbc6d1, type: 3}
   - {fileID: 5343263185955420356, guid: 441c46cd0a25d9b4c8e6d3a654b5557d, type: 3}
   respawnDelay: 3
+  availableProducts:
+  - manzana
+  - coca
   maxAngryClients: 3
+  clientsToWin: 5
   audioSource: {fileID: -6286061035033706330}
   campanaClip: {fileID: 8300000, guid: e84f79fff8a349b409cd7018f7b8029d, type: 3}
   clienteFelizClip: {fileID: 8300000, guid: 2c818da02d888af419e0017f5651b617, type: 3}
